@@ -77,6 +77,10 @@ void Game::processEvents()
 		{
 			processKeys(newEvent);
 		}
+		if (sf::Event::MouseButtonPressed == newEvent.type)
+		{
+			processmousePress(newEvent);
+		}
 	}
 }
 
@@ -90,6 +94,24 @@ void Game::processKeys(sf::Event t_event)
 	if (sf::Keyboard::Escape == t_event.key.code)
 	{
 		m_exitGame = true;
+	}
+}
+
+void Game::processmousePress(sf::Event t_event)
+{
+	float lenght = 0.0f;
+	sf::Vector2f  path{ 0.0f,0.0f }; // line from mouse to helo
+
+	path.x = static_cast<float>(t_event.mouseButton.x) - m_heloLocation.x;
+	path.y = static_cast<float>(t_event.mouseButton.y) - m_heloLocation.y;
+	lenght = std::sqrtf(path.x * path.x + path.y * path.y);
+	path = path / lenght;
+	path = path * m_speed;
+	m_velocity = path;
+	if (sf::Mouse::Button::Right == t_event.mouseButton.button)
+	{
+		m_target.x = static_cast<float>(t_event.mouseButton.x);
+		m_target.y = static_cast<float>(t_event.mouseButton.y);
 	}
 }
 

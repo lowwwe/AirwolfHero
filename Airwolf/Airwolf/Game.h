@@ -25,6 +25,7 @@ private:
 
 	void processEvents();
 	void processKeys(sf::Event t_event);
+	void processmousePress(sf::Event t_event);
 	void update(sf::Time t_deltaTime);
 	void render();
 	void animate();
@@ -46,6 +47,9 @@ private:
 	sf::Sprite m_heloSprite;
 	sf::Vector2f m_heloLocation{100.0f,100.0f}; // location of helicopter
 	sf::Vector2f m_velocity{ 1.0f,1.0f };// change in location of helo every frame
+	float m_speed = 12.5f;
+
+	sf::Vector2f m_target; // aim point
 
 	int m_currntFrame{ 0 };// current frame
 	float m_framecounter{ 0.0f }; // frame counter
