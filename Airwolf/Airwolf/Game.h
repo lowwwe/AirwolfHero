@@ -38,6 +38,11 @@ private:
 	sf::Sprite m_logoSprite; // sprite used for sfml logo
 	bool m_exitGame; // control exiting game
 
+
+	sf::Texture m_heloTexture;
+	sf::Sprite m_heloSprite;
+	sf::Vector2f m_heloLocation{100.0f,100.0f}; // location of helicopter
+
 };
 
 #endif // !GAME_HPP

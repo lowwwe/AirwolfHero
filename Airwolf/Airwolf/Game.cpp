@@ -111,8 +111,7 @@ void Game::update(sf::Time t_deltaTime)
 void Game::render()
 {
 	m_window.clear(sf::Color::White);
-	m_window.draw(m_welcomeMessage);
-	m_window.draw(m_logoSprite);
+	m_window.draw(m_heloSprite);
 	m_window.display();
 }
 
@@ -141,6 +140,13 @@ void Game::setupFontAndText()
 /// </summary>
 void Game::setupSprite()
 {
+	if (!m_heloTexture.loadFromFile("ASSETS\\IMAGES\\helicopter.png"))
+	{
+		std::cout << "problem wih hel image" << std::endl;
+	}
+	m_heloSprite.setTexture(m_heloTexture);
+	m_heloSprite.setPosition(m_heloLocation);
+
 	if (!m_logoTexture.loadFromFile("ASSETS\\IMAGES\\SFML-LOGO.png"))
 	{
 		// simple error message if previous call fails
