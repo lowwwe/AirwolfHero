@@ -102,17 +102,34 @@ void Game::processmousePress(sf::Event t_event)
 	float lenght = 0.0f;
 	sf::Vector2f  path{ 0.0f,0.0f }; // line from mouse to helo
 
-	path.x = static_cast<float>(t_event.mouseButton.x) - m_heloLocation.x;
-	path.y = static_cast<float>(t_event.mouseButton.y) - m_heloLocation.y;
-	lenght = std::sqrtf(path.x * path.x + path.y * path.y);
-	path = path / lenght;
-	path = path * m_speed;
-	m_velocity = path;
 	if (sf::Mouse::Button::Right == t_event.mouseButton.button)
 	{
+		path.x = static_cast<float>(t_event.mouseButton.x) - m_heloLocation.x;
+		path.y = static_cast<float>(t_event.mouseButton.y) - m_heloLocation.y;
+		lenght = std::sqrtf(path.x * path.x + path.y * path.y);
+		path = path / lenght;
+		path = path * m_speed;
+		m_velocity = path;
+
 		m_target.x = static_cast<float>(t_event.mouseButton.x);
 		m_target.y = static_cast<float>(t_event.mouseButton.y);
+
+		if (m_target.x > m_heloLocation.x)
+		{
+			m_direction = Direction::Right;
+			m_heloSprite.setScale(1.0f, 1.0f);
+			m_frameIncrement = 0.8f;
+			m_sound.setPitch(1.0f);
+		}
+		else
+		{
+			m_direction = Direction::Left;
+			m_heloSprite.setScale(-1.0f, 1.0f);
+			m_frameIncrement = 0.8f;
+			m_sound.setPitch(1.0f);
+		}
 	}
+
 }
 
 /// <summary>
@@ -155,7 +172,24 @@ void Game::animate()
 
 void Game::moveHlo()
 {
-	m_heloLocation += m_velocity;
+	if (m_direction != Direction::None)
+	{
+		m_heloLocation += m_velocity;
+	}
+	if (m_direction == Direction::Right
+		&& m_heloLocation.x > m_target.x)
+	{
+		m_direction = Direction::None;
+		m_frameIncrement = 0.2f;
+		m_sound.setPitch(0.6f);
+	}
+	if (m_direction == Direction::Left
+		&& m_heloLocation.x < m_target.x)
+	{
+		m_direction = Direction::None;
+		m_frameIncrement = 0.2f;
+		m_sound.setPitch(0.5f);
+	}
 	m_heloSprite.setPosition(m_heloLocation);
 }
 
@@ -184,6 +218,11 @@ void Game::setupFontAndText()
 /// </summary>
 void Game::setupSprite()
 {
+	m_buffer.loadFromFile("ASSETS\\AUDIO\\helicopter.wav");
+	m_sound.setBuffer(m_buffer);
+	m_sound.setLoop(true);
+	m_sound.play();
+
 	if (!m_heloTexture.loadFromFile("ASSETS\\IMAGES\\helicopter.png"))
 	{
 		std::cout << "problem wih hel image" << std::endl;
@@ -191,6 +230,7 @@ void Game::setupSprite()
 	m_heloSprite.setTexture(m_heloTexture);
 	m_heloSprite.setPosition(m_heloLocation);
 	m_heloSprite.setTextureRect(sf::IntRect{ 0,64,180,64 });
+	m_heloSprite.setOrigin(90.0f, 0.0f);
 
 	if (!m_logoTexture.loadFromFile("ASSETS\\IMAGES\\SFML-LOGO.png"))
 	{

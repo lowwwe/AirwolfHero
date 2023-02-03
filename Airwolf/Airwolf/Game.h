@@ -10,6 +10,15 @@
 /// Don't forget the endif at the bottom
 /// </summary>
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+
+enum class Direction
+{
+	None,
+	Left,
+	Right
+};
+
 
 class Game
 {
@@ -47,13 +56,18 @@ private:
 	sf::Sprite m_heloSprite;
 	sf::Vector2f m_heloLocation{100.0f,100.0f}; // location of helicopter
 	sf::Vector2f m_velocity{ 1.0f,1.0f };// change in location of helo every frame
-	float m_speed = 12.5f;
+	float m_speed = 1.5f;
 
 	sf::Vector2f m_target; // aim point
 
 	int m_currntFrame{ 0 };// current frame
 	float m_framecounter{ 0.0f }; // frame counter
 	float m_frameIncrement{ 0.24f };// frame increment add this 60 fps
+
+	Direction m_direction{ Direction::None };
+
+	sf::SoundBuffer m_buffer;
+	sf::Sound m_sound;
 
 };
 
