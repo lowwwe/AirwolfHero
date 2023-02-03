@@ -28,6 +28,8 @@ private:
 	void update(sf::Time t_deltaTime);
 	void render();
 	
+	void moveHlo();
+
 	void setupFontAndText();
 	void setupSprite();
 
@@ -42,6 +44,7 @@ private:
 	sf::Texture m_heloTexture;
 	sf::Sprite m_heloSprite;
 	sf::Vector2f m_heloLocation{100.0f,100.0f}; // location of helicopter
+	sf::Vector2f m_velocity{ 1.0f,1.0f };// change in location of helo every frame
 
 };
 

@@ -103,6 +103,7 @@ void Game::update(sf::Time t_deltaTime)
 	{
 		m_window.close();
 	}
+	moveHlo();
 }
 
 /// <summary>
@@ -113,6 +114,12 @@ void Game::render()
 	m_window.clear(sf::Color::White);
 	m_window.draw(m_heloSprite);
 	m_window.display();
+}
+
+void Game::moveHlo()
+{
+	m_heloLocation += m_velocity;
+	m_heloSprite.setPosition(m_heloLocation);
 }
 
 /// <summary>
@@ -146,6 +153,7 @@ void Game::setupSprite()
 	}
 	m_heloSprite.setTexture(m_heloTexture);
 	m_heloSprite.setPosition(m_heloLocation);
+	m_heloSprite.setTextureRect(sf::IntRect{ 0,64,180,64 });
 
 	if (!m_logoTexture.loadFromFile("ASSETS\\IMAGES\\SFML-LOGO.png"))
 	{
